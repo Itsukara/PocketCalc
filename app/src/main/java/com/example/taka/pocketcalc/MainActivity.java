@@ -152,45 +152,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textViewDisplay = (TextView) findViewById(R.id.textViewDisplay);
-        Button button0 = (Button) findViewById(R.id.button0);
-        Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
-        Button button4 = (Button) findViewById(R.id.button4);
-        Button button5 = (Button) findViewById(R.id.button5);
-        Button button6 = (Button) findViewById(R.id.button6);
-        Button button7 = (Button) findViewById(R.id.button7);
-        Button button8 = (Button) findViewById(R.id.button8);
-        Button button9 = (Button) findViewById(R.id.button9);
-        Button buttonBS = (Button) findViewById(R.id.buttonBS);
-        Button buttonC = (Button) findViewById(R.id.buttonC);
-        Button buttonAC = (Button) findViewById(R.id.buttonAC);
-        Button buttonAdd = (Button) findViewById(R.id.buttonAdd);
-        Button buttonSub = (Button) findViewById(R.id.buttonSub);
-        Button buttonMul = (Button) findViewById(R.id.buttonMul);
-        Button buttonEq = (Button) findViewById(R.id.buttonEq);
-        Button buttonDiv = (Button) findViewById(R.id.buttonDiv);
-        Button buttonMod = (Button) findViewById(R.id.buttonMod);
-        Button buttonSgn = (Button) findViewById(R.id.buttonSgn);
-
-        Button[] buttons = {button0, button1, button2, button3, button4,
-                button5, button6, button7, button8, button9,
-                buttonBS, buttonC, buttonAC, buttonAdd, buttonSub,
-                buttonMul, buttonEq, buttonDiv, buttonMod, buttonSgn};
-
-        for (Button button : buttons) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Button button = (Button) findViewById(v.getId());
-                    if (button == null) {
-                        Log.d("ERROR", "button == null");
-                    } else {
-                        String buttonStr = button.getText().toString();
-                        process(buttonStr);
+        int[] buttonIDs = {R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4,
+                            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9,
+                            R.id.buttonBS, R.id.buttonC, R.id.buttonAC, R.id.buttonAdd, R.id.buttonSub,
+                            R.id.buttonMul, R.id.buttonEq, R.id.buttonDiv, R.id.buttonMod, R.id.buttonSgn};
+        for (int buttonID : buttonIDs) {
+            Button button = (Button)findViewById(buttonID);
+            if (button == null) {
+                Log.d("ERROR", "button == null");
+            } else {
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button button = (Button) findViewById(v.getId());
+                        if (button == null) {
+                            Log.d("ERROR in onClick", "button == null");
+                        } else {
+                            String buttonStr = button.getText().toString();
+                            process(buttonStr);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }
