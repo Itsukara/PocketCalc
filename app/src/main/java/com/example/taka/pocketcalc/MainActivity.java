@@ -164,13 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Button button = (Button) findViewById(v.getId());
-                        if (button == null) {
-                            Log.d("ERROR in onClick", "button == null");
-                        } else {
-                            String buttonStr = button.getText().toString();
-                            process(buttonStr);
-                        }
+                        Button button = (Button) v;
+                        String buttonStr = button.getText().toString();
+                        process(buttonStr);
                     }
                 });
             }
