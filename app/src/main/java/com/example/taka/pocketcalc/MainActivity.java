@@ -1,6 +1,9 @@
 package com.example.taka.pocketcalc;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +16,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int maxKeta = 15;
     private static final double maxDouble =  999999999999999.0;
 
-    private static final String OVERFLOW = "OVERFLOW (Push AC)";
-    private static final String ZERODIV  = "DIV BY 0 (Push AC)";
+    private static final String OVERFLOW = "Overflow (Push AC)";
+    private static final String ZERODIV  = "Div by 0 (Push AC)";
     private String operand1 = "";
     private String operator = "";
     private boolean firstNum = true;
 
     private TextView textViewDisplay;
+    private ClipboardManager clipboard;
 
     @SuppressLint("SetTextI18n")
     private void process(String buttonStr) {
@@ -171,5 +175,39 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+
+        // 計算結果をクリップボードにコピーを下記で追加
+        clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        Button buttonCopy = (Button)findViewById(R.id.buttonCopy);
+        if (buttonCopy == null) {
+            Log.d("ERROR", "buttonCopy == null");
+        } else {
+            buttonCopy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String display = textViewDisplay.getText().toString();
+                    ClipData clip = ClipData.newPlainText("copied_text", display);
+                    clipboard.setPrimaryClip(clip);
+                }
+            });
+        }
+
+        // 画面回転の後に状態を元に戻す
+        if (savedInstanceState != null) {
+            textViewDisplay.setText(savedInstanceState.getString("display"));
+            operand1 = savedInstanceState.getString("operand1");
+            operator = savedInstanceState.getString("operator");
+            firstNum = savedInstanceState.getBoolean("firstNum");
+        }
+    }
+
+    // 画面回転の前に状態を保存する
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("display",  textViewDisplay.getText().toString());
+        outState.putString("operand1", operand1);
+        outState.putString("operator", operator);
+        outState.putBoolean("firstNum", firstNum);
     }
 }
