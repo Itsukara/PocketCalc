@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // 計算結果をクリップボードにコピーを下記で追加
         clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
         Button buttonCopy = (Button)findViewById(R.id.buttonCopy);
         if (buttonCopy == null) {
@@ -185,8 +184,7 @@ public class MainActivity extends AppCompatActivity {
             buttonCopy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String display = textViewDisplay.getText().toString();
-                    ClipData clip = ClipData.newPlainText("copied_text", display);
+                    ClipData clip = ClipData.newPlainText("copied_text", textViewDisplay.getText().toString());
                     clipboard.setPrimaryClip(clip);
                 }
             });
